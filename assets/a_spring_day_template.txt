@@ -1,0 +1,3 @@
+Today, was an {Adjective} spring day. The {Noun1} was blue and clear.
+I went to a {Place1} near the {Noun2} with {Name}.
+Then, I went to the {Place2} to do my {thing} {Activity}.
