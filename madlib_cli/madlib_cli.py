@@ -1,57 +1,64 @@
-def intro():
+import re
+import os
+
+def welcome():
     welcomeMsg= """Welcome to MadLib Command Line (MADLIB-CLI)!
-    Ready for some fun?  Guess the words! :)
+    Ready for some fun?  Enter the words! :)
     """
     print(welcomeMsg)
 
-intro()
-
-def read_template():
-    template = open('assets/a_spring_day_template.txt','r')
-    contents = template.read()
-    line_contents=template.readlines()
-    template.close()
-    print(contents)
-    print(line_contents)
-
-    for line in line_contents:
+def read_template(path):
+    if os.path.isfile(path):
+        with open(path,'r') as file_template:
+            file_template = file_template.read()
+        return file_template
+     
+    else:
+        raise FileNotFoundError()
 
 
 
-def getUserInputs():
-    	
-Adjective = input("How would you describe a spring day?: ")
-Noun1 = input("Enter an adjective: ")
-Place1 = input("Enter an adjective: ")
-Noun2 = input("Enter an adjective: ")
-Name = input("Enter an adjective: ")
-Place2 = input("Enter an adjective: ")
-Thing = input("Enter an adjective: ")
-Activity = input("Enter an adjective: ")
+def parse_template(template):
+    pattern = r"{(.*?)}"
+    # pattern = r"\s*{.*}\s*"
+    empty_string = re.sub(pattern, "{}", template)
+    language_parts = re.findall(pattern, template)
+    return empty_string, language_parts
 
-Today, was an {Adjective} spring day. The {Noun1} was blue and clear.
-I went to a {Place1} near the {Noun2} with {Name}.
-Then, I went to the {Place2} to do my {Thing} {Activity}.
+
+def get_user_input(language_parts):
+    return [input(f"Enter a {part}: ") for part in language_parts]
+
+def merge(empty_string, inputs):
+    madlib = empty_string.format(*inputs)
+    print(madlib)
+    return madlib
+
+def write_madlib(path, madlib):
+    with open(path,'w') as filled:
+        filled.write(madlib)
+
+
+if __name__ == '__main__':
+    path = 'assets/make_me_a_video_game_template.txt'
+    template = read_template(path)
+    empty_string, language_parts = parse_template(template)
+    print(empty_string,"\n",language_parts)
+    inputs = get_user_input(language_parts)
+    madlib = merge(empty_string, inputs)
+    write_madlib('assets/madlib.txt', madlib)
+
+
+
+
+
+
+
+
+
 
 
  
-
- 
-# # # Ask the user to input a noun
-# # noun = input("Enter a noun: ")
- 
-# # # Replace the blank with the user's input
-# # madlib = madlib.replace("blank", noun)
- 
-# # # Print out the Mad Lib including the user's response
-# # print(madlib)
-
-	
-# ​string = "This is a string"
- 
-# string = string.replace("is", "was")
- 
-# print(string)
 
 
 
